@@ -1,6 +1,18 @@
 from cube import cube
+from display import doMainLoop
 
 import json #For debugging using json.dump
+def dump(x,n=4):
+    print(json.dumps(x,indent=n))
+
+
 
 x = cube()
-print(json.dumps(x.contents,indent=4))
+dump(x.contents)
+print("\n\n\n")
+x.F()
+x.F()
+dump(x.contents)
+x.draw()
+
+doMainLoop()
