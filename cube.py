@@ -8,13 +8,19 @@ touchingFaces = { #This dictionary contains information about all the faces touc
     # Before we do this, we cant just take, for example, the three bottom squares, as if we were trying to turn, for example, the orange face, those squares would be the three bottom squares for the green face, but not from the perspective of the orange face. So we have to rotate the faces to adjust.
     
     # Face -> Top, times Top must rotate, Left, times Left must rotate, Right, times Right must rotate, Bottom, times Bottom must rotate
-    0:[4,1,3,2], #White -> Blue, Orange, Red, Green
-    1:[0,3,4,2,5], #Orange -> White, Blue, Green, Yellow
-    2:[0,1,3,5], #Green -> White, Orange, Red, Yellow
-    3:[0,2,4,5], #Red -> White, Green, Blue, Yellow
-    4:[0,3,1,5], #Blue -> White, Red, Orange, Yellow
+    0:[4,2,1,3,2], #White -> Blue, Orange, Red, Green
+    1:[0,1,4,2,5], #Orange -> White, Blue, Green, Yellow
+    2:[0,0,1,3,5], #Green -> White, Orange, Red, Yellow
+    3:[0,2,3,4,5], #Red -> White, Green, Blue, Yellow
+    4:[0,3,2,1,5], #Blue -> White, Red, Orange, Yellow
     5:[2,1,3,4], #Yellow -> Green, Orange, Red, Blue
 }
+
+class corner:
+    def __init__(self,contents):
+        self.contents = list(contents)
+    
+
 
 
 class cube:
