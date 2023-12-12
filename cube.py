@@ -9,7 +9,7 @@ def findIndex(arr,a,b):
     except:
         return arr.index(b)
 
-directions = ['T','L','F','R','B','D']
+directions = ['U','L','F','R','B','D']
 
 touchingFaces = { #This dictionary contains information about all the faces touching a specific face. For example, the green face would correspond to [0,1,3,5] which are the indexes for white, orange, red and yellow
     
@@ -50,12 +50,14 @@ class center:
 
 
 class layer:
-    def __init__(self, edges,corners=None):
+    def __init__(self, edges,centers,corners=None):
         if corners:
             self.corners = [corner(x) for x in corners]
         else:
             self.corners = None
         self.edges = [edge(x[0],x[1]) for x in edges]
+        print(*centers)
+        self.centers = [center(*(x)) for x in centers]
 
 
 
@@ -74,26 +76,35 @@ class cube:
         ]
 
         Edges = [
-            ["WO","TL"],
-            ["WG","TF"],
-            ["WR","TR"],
-            ["WB","TB"],
+            ["WO","UL"],
+            ["WG","UF"],
+            ["WR","UR"],
+            ["WB","UB"],
 
             ["OG","LF"],
             ["GR","FR"],
             ["RB","RB"],
             ["BO","BL"],
 
-            ["YO","BL"],
-            ["YG","BF"],
-            ["YR","BR"],
-            ["YB","BB"],
+            ["YO","DL"],
+            ["YG","DF"],
+            ["YR","DR"],
+            ["YB","DB"],
+        ]
+
+        centers = [
+            ["W","U"],
+            ["O","L"],
+            ["G","F"],
+            ["R","R"],
+            ["B","B"],
+            ["Y","D"]
         ]
 
         self.layers = [
-            layer(Edges[0:4],Corners[0:4]),
-            layer(Edges[4:8]),
-            layer(Edges[8:12],Corners[4:8])
+            layer(Edges[0:4],[centers[0]],Corners[0:4]),
+            layer(Edges[4:8],centers[1:5]),
+            layer(Edges[8:12],[centers[5]],Corners[4:8])
         ]
         
 
@@ -130,4 +141,27 @@ class cube:
         for i in range(4):
             drawFace(squareSize*i*3 + squareGap*(i+1), squareGap*2 + squareSize*3, self.contents[i+1], canvas)
         drawFace(squareSize*3 + 2*squareGap, 2*squareSize*3 + 3*squareGap, self.contents[5],canvas)
+   
+    def displayAttributes(self):
+        counter = 1
+        for layer in self.layers:
+            print(f"Layer{counter}")
+            if layer.corners:
+                print(f" Corners:")
+                for corner in layer.corners:
+                    print(f"  {corner.contents}")
+            print(" Edges")
+            for edge in layer.edges:
+                print(f"  {edge.c1}, {edge.c2}, {edge.d1}, {edge.d2}")
+            print(" Centers")
+            for center in layer.centers:
+                print(f"  {center.color}, {center.direction}")
 
+            counter += 1
+            print()
+
+
+
+x = cube()
+
+x.displayAttributes()
