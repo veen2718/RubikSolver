@@ -1,5 +1,5 @@
 from display import *
-
+from copy import deepcopy
 import numpy as np
 
 
@@ -24,6 +24,11 @@ touchingFaces = { #This dictionary contains information about all the faces touc
     4:[0,3,2,1,5], #Blue -> White, Red, Orange, Yellow
     5:[2,1,3,4], #Yellow -> Green, Orange, Red, Blue
 }
+
+class face:
+    def __init__(self, color, direction):
+        self.color = color
+        self.direction = direction
 
 class corner:
     def __init__(self,contents):
@@ -117,11 +122,31 @@ class cube:
             [["B" for _ in range(3)] for _ in range(3)],
             [["Y" for _ in range(3)] for _ in range(3)],
         ]
-        self.contents[2][0][1] = "R"
+        self.contents[2][1][1] = "R"
 
     def npArray(self):
         return[np.array(face) for face in self.contents]
     
+    def getContents(self):
+        oldContents = deepcopy(self.contents)
+
+        #Top Layer
+
+        l = self.layers[0]
+        Center = l.centers[0]
+        oldContents[0][1][1] = Center.color
+        
+        Faces = { #This dictionary maps each combination of side faces to a position in the face array. For example, LB  would map to 1
+            {"L","B"}:0,
+            {'R', 'B'}:1,
+            {'L', 'F'}:2,
+            {'R', 'F'}:3,
+        }
+
+        corners = l.corners
+        for Corner in corners:
+
+
 
     def rotateFace(self, face):
         npContents = self.npArray()
@@ -149,7 +174,7 @@ class cube:
             if layer.corners:
                 print(f" Corners:")
                 for corner in layer.corners:
-                    print(f"  {corner.contents}")
+                    print(f"  {corner.contents} {corner.directions}")
             print(" Edges")
             for edge in layer.edges:
                 print(f"  {edge.c1}, {edge.c2}, {edge.d1}, {edge.d2}")

@@ -11,8 +11,8 @@ def dump(x,n=4):
 x = cube()
 dump(x.contents)
 print("\n\n\n")
-x.F()
-x.F()
+#x.F()
+#x.F()
 dump(x.contents)
 x.draw()
 
